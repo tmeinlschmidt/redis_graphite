@@ -1,0 +1,87 @@
+# polling by how many seconds
+general:
+  poll: 30
+
+# redis servers configuration
+redis:
+  cli: /opt/redis/bin/redis-cli
+  servers:
+    - server: alpha
+      host: 10.10.10.100
+      port: 6379
+      databases:
+        - db0
+    - server: beta
+      host: 10.10.10.101
+      port: 6379
+      databases:
+        - db0
+    - server: gamma
+      host: 10.10.10.102
+      port: 6379
+      databases:
+        - db0
+
+# what to fetch from the redis INFO command
+metrics:
+  - section: server
+    variables:
+      - uptime_in_seconds
+  - section: clients
+    variables:
+      - connected_clients
+      - client_longest_output_list
+      - client_biggest_input_buf
+      - blocked_clients
+  - section: memory
+    variables:
+      - used_memory
+      - used_memory_rss
+      - used_memory_peak
+      - used_memory_lua
+      - mem_fragmentation_ratio
+  - section: persistence
+    variables:
+      - rdb_changes_since_last_save
+      - aof_current_size
+      - aof_base_size
+      - aof_pending_rewrite
+      - aof_buffer_length
+      - aof_rewrite_buffer_length
+      - aof_pending_bio_fsync
+      - aof_delayed_fsync
+  - section: stats
+    variables:
+      - total_connections_received
+      - total_commands_processed
+      - instantaneous_ops_per_sec
+      - rejected_connections
+      - sync_full
+      - sync_partial_ok
+      - sync_partial_err
+      - expired_keys
+      - evicted_keys
+      - keyspace_hits
+      - keyspace_misses
+      - pubsub_channels
+      - pubsub_patterns
+      - latest_fork_usec
+  - section: replication
+    variables:
+      - connected_slaves
+      - repl_backlog_size
+      - repl_backlog_histlen
+  - section: cpu
+    variables:
+      - used_cpu_sys
+      - used_cpu_user
+      - used_cpu_sys_children
+      - used_cpu_user_children
+
+# graphite settings
+graphite:
+  host: 10.10.10.111
+  port: 2003
+  prefix: myapp.redis
+  interval: 30
+  slice: 30
